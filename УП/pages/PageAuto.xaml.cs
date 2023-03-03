@@ -84,10 +84,12 @@ namespace УП
             if (time == 0)
             {
                 timer.Stop();
+                tbTime.Text = "";
+                MessageBox.Show("Вы не успели ввести код.Сгенирируйте заново");
                 tbCode.Text = "";
+                btnUpCode.IsEnabled = true;
             }
             tbCode.IsEnabled = false;
-            btnUpCode.IsEnabled = true;
             btnEnter.IsEnabled = false;
         }
 

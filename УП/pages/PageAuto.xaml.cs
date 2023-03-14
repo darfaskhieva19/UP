@@ -21,7 +21,7 @@ namespace УП
     /// </summary>
     public partial class PageAuto : Page
     {
-        Employees employee;
+        Users users;
         DispatcherTimer timer = new DispatcherTimer();
         int time = 10;
         string code;
@@ -48,7 +48,7 @@ namespace УП
             {
                 timer.Stop();
                 tbTime.Text = "";
-                MessageBox.Show($"Вы успешно авторизовались! Ваша роль - {employee.Roles.Role}");
+                MessageBox.Show($"Вы успешно авторизовались! Ваша роль - {users.Roles.Role}");
             }
             else
             {
@@ -65,8 +65,8 @@ namespace УП
         {
             if (e.Key == Key.Enter)
             {
-                Employees employees = DataBase.Base.Employees.FirstOrDefault(z => z.Number == tbNumber.Text);
-                if (employees != null)
+                Users user = DataBase.Base.Users.FirstOrDefault(z => z.Number == tbNumber.Text);
+                if (user != null)
                 {
                     tbpass.IsEnabled = true;
                     tbpass.Focus();
@@ -83,8 +83,8 @@ namespace УП
             if (e.Key == Key.Enter)
             {
                 int pp = tbpass.Password.GetHashCode();
-                Employees employees = DataBase.Base.Employees.FirstOrDefault(z => z.Password == pp);
-                if (employee != null)
+                Users users = DataBase.Base.Users.FirstOrDefault(z => z.Password == pp);
+                if (users != null)
                 {
                     tbCode.IsEnabled = true;
                     timer.Interval = new TimeSpan(0, 0, 1);

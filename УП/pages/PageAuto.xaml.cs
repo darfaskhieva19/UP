@@ -27,7 +27,6 @@ namespace УП
         string code;
         string str = String.Empty;
 
-
         public PageAuto()
         {
             InitializeComponent();
@@ -98,20 +97,19 @@ namespace УП
             }
         }
 
-        public void Time()
+        public void Time() //запуск таймера и генерация
         {
-            string code = GenerateCode();
-            MessageBox.Show(code);
+            string kod = GenerateCode();
+            MessageBox.Show(kod + "\nЗапомните пожалуйста код", "Код");
             tbCode.Focus();
             time = 10;
             timer.Start();
-            tbTime.Text = "10 секунд";
         }
 
         private void Timer_Tick(object sender, EventArgs e)
         {
             time--;
-            tbTime.Text = "Осталось " + time.ToString() + " секунд";
+            tbTime.Text = "Осталось " + time + " секунд";
             if (time == 0)
             {
                 timer.Stop();
@@ -119,9 +117,9 @@ namespace УП
                 MessageBox.Show("Вы не успели ввести код.Сгенирируйте код заново!");
                 tbCode.Text = "";
                 btnUpCode.IsEnabled = true;
-                tbCode.IsEnabled = false;
                 btnEnter.IsEnabled = false;
-            }            
+                tbCode.IsEnabled = false;
+            }           
         }
 
         private void tbNumber_PreviewTextInput(object sender, TextCompositionEventArgs e) //запрет на символы
@@ -134,23 +132,51 @@ namespace УП
 
         private void btnUpCode_Click(object sender, RoutedEventArgs e)
         {
+            Time();
             btnUpCode.IsEnabled = false;
             tbCode.IsEnabled = true;
-            Time();
         }
 
         public string GenerateCode()
         {
+            string str = string.Empty;
             code = "";
-            str = string.Empty;
             Random rnd = new Random();
-            string sym = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$()*+,-./;<=>?@[]^_{|}";           
-            for(int i = 0; i < 8; i++)
+            string sym = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";      
+            string sps = "!#$()*+,-./;<=>?@[]^_{|/}";
+            for (int i = 0; str.Length < 8; i++)
             {
-                str += sym[rnd.Next(sym.Length)];
+                str += sym[rnd.Next(sym.Length)];                
             }
             return str;
-            MessageBox.Show(str + "\nЗапомните пожалуйста код", "Код");
+        }
+
+        private void tbCode_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            btnEnter.IsEnabled = true;
+        }
+
+        private void tbCode_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Enter)
+            {
+                if (tbCode.Text == code)
+                {
+                    timer.Stop();
+                    tbTime.Text = "";
+                    MessageBox.Show($"Вы успешно авторизовались! Ваша роль - {users.Roles.Role}");
+                }
+                else
+                {
+                    timer.Stop();
+                    tbTime.Text = "";
+                    MessageBox.Show("Неверный код!");
+                    tbCode.Text = "";
+                    btnUpCode.IsEnabled = false;
+                    btnEnter.IsEnabled = false;
+                    tbCode.IsEnabled = false;
+                }
+            }
         }
     }
 }

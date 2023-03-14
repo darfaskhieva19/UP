@@ -43,13 +43,13 @@
 
             <StackPanel Orientation="Horizontal" Margin="0 10 10 0" >
                 <TextBlock Text="Код" FontSize="18" Margin="0 0 39 0"/>
-                <TextBox Name="tbCode" Width="120" Height="25" Style="{StaticResource TB}" IsEnabled="False"/>
+                <TextBox Name="tbCode" Width="120" Height="25" Style="{StaticResource TB}" IsEnabled="False" TextChanged="tbCode_TextChanged" KeyDown="tbCode_KeyDown" MaxLength="8"/>
                 <Button Name="btnUpCode" Click="btnUpCode_Click" IsEnabled="False" Width="25" Height="25" Margin="5 0 0 0">
                     <Image Source="/resource/UpCode.png" Width="20" Height="20" />
                 </Button>
             </StackPanel>
             <StackPanel>
-                <TextBlock Name="tbTime"/>
+                <TextBlock Name="tbTime" Style="{StaticResource txt}"/>
             </StackPanel>
 
             <StackPanel Orientation="Horizontal" Margin="20" HorizontalAlignment="Right">

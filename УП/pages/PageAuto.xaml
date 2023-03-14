@@ -43,7 +43,7 @@
 
             <StackPanel Orientation="Horizontal" Margin="0 10 10 0" >
                 <TextBlock Text="Код" FontSize="18" Margin="0 0 39 0"/>
-                <TextBox Name="tbCode" Width="120" Height="25" Style="{StaticResource TB}" PreviewTextInput="tbCode_PreviewTextInput" IsEnabled="False"/>
+                <TextBox Name="tbCode" Width="120" Height="25" Style="{StaticResource TB}" IsEnabled="False"/>
                 <Button Name="btnUpCode" Click="btnUpCode_Click" IsEnabled="False" Width="25" Height="25" Margin="5 0 0 0">
                     <Image Source="/resource/UpCode.png" Width="20" Height="20" />
                 </Button>

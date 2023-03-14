@@ -5,7 +5,7 @@
              StartupUri="MainWindow.xaml">
     <Application.Resources>
         <ControlTemplate TargetType="Button" x:Key="Btn">
-            <Border CornerRadius="17" BorderThickness="0.5" BorderBrush="Black" Background="#B5DEFA" Height="35" Width="100" Margin="4">
+            <Border BorderThickness="0.5" BorderBrush="Black" Background="#B5DEFA" Height="35" Width="100" Margin="4">
                 <ContentControl  VerticalAlignment="Center" HorizontalAlignment="Center" FontFamily="Calibry" FontSize="14" Foreground="Black" Content="{TemplateBinding Content}"/>
             </Border>
         </ControlTemplate>

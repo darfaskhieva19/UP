@@ -22,7 +22,7 @@ namespace УП
     /// </summary>
     public partial class PageAuto : Page
     {
-        Users users;
+        
         DispatcherTimer timer = new DispatcherTimer();
         int time = 10;
         string str;
@@ -63,6 +63,7 @@ namespace УП
                 }
             }
         }
+        Users user;
         private void tbpass_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Enter)
@@ -71,6 +72,7 @@ namespace УП
                 Users users = DataBase.Base.Users.FirstOrDefault(z => z.Password == pp);
                 if (users != null)
                 {
+                    user = users;
                     tbCode.IsEnabled = true;
                     timer.Interval = new TimeSpan(0, 0, 1);
                     timer.Tick += new EventHandler(Timer_Tick);
@@ -82,7 +84,6 @@ namespace УП
                 }
             }
         }
-
         public void Time() //запуск таймера и генерация
         {
             string kod = GenerateCode();
@@ -126,17 +127,39 @@ namespace УП
         public string GenerateCode()
         {
             Random rnd = new Random();
-            str = "";
-            string sym = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$()*+,-./;<=>?@[]^_{|/}";
+            str = "";           
+            string sym = " .()[]!?&^@*$<>-{}~#%=";
+            bool specs = false, n = false;
             while (str.Length < 8)
             {
-                for (int i = 0; str.Length < 8; i++)
+                int rand = rnd.Next(4);
+                switch (rand)
                 {
-                    str += sym[rnd.Next(sym.Length)];
+                    case 0:
+                        if (n == false)
+                        {
+                            str += rnd.Next(9);
+                            n = true;
+                        }
+                        break;
+                    case 1:
+                        if (specs == false)
+                        {
+                            str += sym[rnd.Next(21)];
+                            specs = true;
+                        }
+                        break;
+                    case 2:
+                        str += (char)rnd.Next('A', 'Z');
+                        break;
+                    case 3:
+                        str += (char)rnd.Next('a', 'z');
+                        break;
                 }
             }
             return str;
         }
+        
 
         public void Entry()
         {
@@ -144,7 +167,7 @@ namespace УП
             {
                 timer.Stop();
                 tbTime.Text = "";
-                MessageBox.Show($"Вы успешно авторизовались! Ваша роль - {users.Roles.Role}");
+                MessageBox.Show($"Вы успешно авторизовались! Ваша роль - {user.Roles.Role}");
             }
             else
             {
@@ -157,6 +180,7 @@ namespace УП
                 tbCode.IsEnabled = false;
             }
         }
+        
 
         private void tbCode_TextChanged(object sender, TextChangedEventArgs e)
         {

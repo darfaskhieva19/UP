@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -24,15 +25,15 @@ namespace УП
         Users users;
         DispatcherTimer timer = new DispatcherTimer();
         int time = 10;
-        string code;
-        string str = String.Empty;
+        string str;
+        //= String.Empty;
 
         public PageAuto()
         {
             InitializeComponent();
             tbNumber.Focus();
         }
-       
+
         private void btnOtm_Click(object sender, RoutedEventArgs e) //кнопка отмены
         {
             tbNumber.Text = "";
@@ -41,24 +42,9 @@ namespace УП
             tbpass.IsEnabled = false;
             tbCode.IsEnabled = false;
         }
-        private void btnEnter_Click(object sender, RoutedEventArgs e)
+        private void btnEnter_Click(object sender, RoutedEventArgs e) //вход
         {
-            if(tbCode.Text == code)
-            {
-                timer.Stop();
-                tbTime.Text = "";
-                MessageBox.Show($"Вы успешно авторизовались! Ваша роль - {users.Roles.Role}");
-            }
-            else
-            {
-                timer.Stop();
-                tbTime.Text = "";
-                MessageBox.Show("Неверный код!");
-                tbCode.Text = "";
-                btnUpCode.IsEnabled = false;
-                btnEnter.IsEnabled = false;
-                tbCode.IsEnabled = false;
-            }
+            Entry();
         }
         private void tbNumber_KeyDown(object sender, KeyEventArgs e)
         {
@@ -119,7 +105,7 @@ namespace УП
                 btnUpCode.IsEnabled = true;
                 btnEnter.IsEnabled = false;
                 tbCode.IsEnabled = false;
-            }           
+            }
         }
 
         private void tbNumber_PreviewTextInput(object sender, TextCompositionEventArgs e) //запрет на символы
@@ -139,16 +125,37 @@ namespace УП
 
         public string GenerateCode()
         {
-            string str = string.Empty;
-            code = "";
             Random rnd = new Random();
-            string sym = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";      
-            string sps = "!#$()*+,-./;<=>?@[]^_{|/}";
-            for (int i = 0; str.Length < 8; i++)
+            str = "";
+            string sym = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!#$()*+,-./;<=>?@[]^_{|/}";
+            while (str.Length < 8)
             {
-                str += sym[rnd.Next(sym.Length)];                
+                for (int i = 0; str.Length < 8; i++)
+                {
+                    str += sym[rnd.Next(sym.Length)];
+                }
             }
             return str;
+        }
+
+        public void Entry()
+        {
+            if (tbCode.Text == str)
+            {
+                timer.Stop();
+                tbTime.Text = "";
+                MessageBox.Show($"Вы успешно авторизовались! Ваша роль - {users.Roles.Role}");
+            }
+            else
+            {
+                timer.Stop();
+                tbTime.Text = "";
+                MessageBox.Show("Неверный код!");
+                tbCode.Text = "";
+                btnUpCode.IsEnabled = true;
+                btnEnter.IsEnabled = false;
+                tbCode.IsEnabled = false;
+            }
         }
 
         private void tbCode_TextChanged(object sender, TextChangedEventArgs e)
@@ -160,23 +167,9 @@ namespace УП
         {
             if (e.Key == Key.Enter)
             {
-                if (tbCode.Text == code)
-                {
-                    timer.Stop();
-                    tbTime.Text = "";
-                    MessageBox.Show($"Вы успешно авторизовались! Ваша роль - {users.Roles.Role}");
-                }
-                else
-                {
-                    timer.Stop();
-                    tbTime.Text = "";
-                    MessageBox.Show("Неверный код!");
-                    tbCode.Text = "";
-                    btnUpCode.IsEnabled = false;
-                    btnEnter.IsEnabled = false;
-                    tbCode.IsEnabled = false;
-                }
+                Entry();
             }
         }
+        
     }
 }
